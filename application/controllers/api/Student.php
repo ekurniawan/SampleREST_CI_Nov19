@@ -76,7 +76,7 @@ class Student extends REST_Controller
         }
     }
 
-    public function index_put()
+    /*public function index_put()
     {
         $nim = $this->put('nim');
         $nama = $this->put('nama');
@@ -92,6 +92,23 @@ class Student extends REST_Controller
             return $this->response("Data gagal diupdate",400);
         }
         
+    }*/
+
+    public function index_put(){
+        $nim = $this->put('nim');
+        $nama = $this->put('nama');
+        $email = $this->put('email');
+        $ipk = $this->put('ipk');
+
+        $data = ['nama'=>$nama,'email'=>$email,'ipk'=>$ipk];
+        $this->db->where('nim',$nim);
+        $result = $this->db->update('Student',$data);
+        if($result){
+            return $this->response("Data Berhasil di Update",200);
+        }
+        else {
+            return $this->response("Data gagal diupdate",400);
+        }
     }
 
     public function index_delete($nim)
