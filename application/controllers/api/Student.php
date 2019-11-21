@@ -75,13 +75,14 @@ class Student extends REST_Controller
     }*/
 
     public function index_post(){
+        $this->load->model('Student_model');
         $nim = $this->post('nim');
         $nama = $this->post('nama');
         $email = $this->post('email');
         $ipk = $this->post('ipk');
 
         $data = ['nim' => $nim, 'nama' => $nama, 'email' => $email, 'ipk' => $ipk];
-        $result = $this->db->insert('Student',$data);
+        $result = $this->Student_model->insert($data);
         if($result){
             return $this->response($data,201);
         }
@@ -137,7 +138,8 @@ class Student extends REST_Controller
         }
     }*/
 
-    public function index_delete($nim){
+    public function index_delete($nim)
+    {
         $this->db->where('nim',$nim);
         $result = $this->db->delete('Student');
         if($result){
