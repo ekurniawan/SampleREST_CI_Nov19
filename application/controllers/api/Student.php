@@ -20,7 +20,7 @@ class Student extends REST_Controller
         return $this->response($data, 200);
     }*/
 
-    public function index_get(){
+    /*public function index_get(){
         $nim = $this->get('nim');
         if($nim==''){
             $this->db->order_by('nama','ASC');
@@ -31,6 +31,20 @@ class Student extends REST_Controller
             $data = $this->db->get('Student')->result();
         }
         return $this->response($data);
+    }*/
+
+    public function index_get(){
+        $this->load->model('Student_model');
+        $nim = $this->get('nim');
+
+        if($nim==''){
+            $data = $this->Student_model->getall();
+        }
+        else {
+            $data = $this->Student_model->getbyid($nim);
+        }
+        
+        return $this->response($data,200);
     }
 
     public function getbyname_get($nama)
