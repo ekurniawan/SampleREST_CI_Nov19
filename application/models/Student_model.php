@@ -16,4 +16,15 @@ class Student_model extends CI_Model
         $data = $this->db->get('Student')->result()[0];
         return $data;
     }
+
+    public function getbyname($nama){
+        $this->db->like('nama',$nama);
+        $data = $this->db->get('Student')->result();
+        return $data;
+    }
+
+    public function insert($data){
+        $result = $this->db->insert($data);
+        return $result;
+    }
 }

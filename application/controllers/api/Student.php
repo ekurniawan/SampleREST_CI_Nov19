@@ -49,10 +49,10 @@ class Student extends REST_Controller
 
     public function getbyname_get($nama)
     {
+        $this->load->model('Student_model');
         /*$sql = "select * from Student where nama like ?";
         $data = $this->db->query($sql, array('%' . $nama . '%'))->result();*/
-        $this->db->like('nama',$nama);
-        $data = $this->db->get('Student')->result();
+        $data = $this->Student_model->getbyname($nama);
         return $this->response($data, 200);
     }
 
