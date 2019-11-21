@@ -111,8 +111,26 @@ class Student extends REST_Controller
         }
     }
 
-    public function index_delete($nim)
+    /*public function index_delete($nim)
     {
-        return $this->response("Data $nim berhasil di delete", 200);
+        $sql = "delete from Student where nim=?";
+        $result = $this->db->query($sql,array($nim));
+        if($result){
+            return $this->response("Data berhasil di delete",200);
+        }
+        else {
+            return $this->response("Data gagal di delete",400);
+        }
+    }*/
+
+    public function index_delete($nim){
+        $this->db->where('nim',$nim);
+        $result = $this->db->delete('Student');
+        if($result){
+            return $this->response("Data berhasil di delete",200);
+        }
+        else {
+            return $this->response("Data gagal di delete",400);
+        }
     }
 }
