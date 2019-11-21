@@ -24,7 +24,19 @@ class Student_model extends CI_Model
     }
 
     public function insert($data){
-        $result = $this->db->insert($data);
+        $result = $this->db->insert('Student',$data);
+        return $result;
+    }
+
+    public function update($nim,$data){
+        $this->db->where('nim',$nim);
+        $result = $this->db->update('Student',$data);
+        return $result;
+    }
+
+    public function delete($nim){
+        $this->db->where('nim',$nim);
+        $result = $this->db->delete('Student');
         return $result;
     }
 }

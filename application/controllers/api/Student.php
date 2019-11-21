@@ -110,14 +110,17 @@ class Student extends REST_Controller
     }*/
 
     public function index_put(){
+        $this->load->model('Student_model');
+
         $nim = $this->put('nim');
         $nama = $this->put('nama');
         $email = $this->put('email');
         $ipk = $this->put('ipk');
 
         $data = ['nama'=>$nama,'email'=>$email,'ipk'=>$ipk];
-        $this->db->where('nim',$nim);
-        $result = $this->db->update('Student',$data);
+        
+        $result = $this->Student_model->update($nim,$data);
+        
         if($result){
             return $this->response("Data Berhasil di Update",200);
         }
@@ -140,8 +143,8 @@ class Student extends REST_Controller
 
     public function index_delete($nim)
     {
-        $this->db->where('nim',$nim);
-        $result = $this->db->delete('Student');
+        $this->load->model('Student_model');
+        $result = $this->Student_model->delete($nim);
         if($result){
             return $this->response("Data berhasil di delete",200);
         }
