@@ -33,18 +33,24 @@ class Student extends REST_Controller
         return $this->response($data);
     }*/
 
-    public function index_get(){
-        $this->load->model('Student_model');
-        $nim = $this->get('nim');
+    public function index_get()
+    {
+        $headers = $this->input->request_headers();
+        if (Authorization::tokenIsExist($headers)) {
+            $token = Authorization::validateToken($headers['Authorization']);
+            if ($token != false) {
+                $this->load->model('Student_model');
+                $nim = $this->get('nim');
 
-        if($nim==''){
-            $data = $this->Student_model->getall();
+                if ($nim == '') {
+                    $data = $this->Student_model->getall();
+                } else {
+                    $data = $this->Student_model->getbyid($nim);
+                }
+                return $this->response($data, 200);
+            }
         }
-        else {
-            $data = $this->Student_model->getbyid($nim);
-        }
-        
-        return $this->response($data,200);
+        return $this->response("Token tidak valid !",401);
     }
 
     public function getbyname_get($nama)
@@ -74,7 +80,8 @@ class Student extends REST_Controller
         }
     }*/
 
-    public function index_post(){
+    public function index_post()
+    {
         $this->load->model('Student_model');
         $nim = $this->post('nim');
         $nama = $this->post('nama');
@@ -83,11 +90,10 @@ class Student extends REST_Controller
 
         $data = ['nim' => $nim, 'nama' => $nama, 'email' => $email, 'ipk' => $ipk];
         $result = $this->Student_model->insert($data);
-        if($result){
-            return $this->response($data,201);
-        }
-        else {
-            return $this->response("Gagal insert data !",400);
+        if ($result) {
+            return $this->response($data, 201);
+        } else {
+            return $this->response("Gagal insert data !", 400);
         }
     }
 
@@ -109,7 +115,8 @@ class Student extends REST_Controller
         
     }*/
 
-    public function index_put(){
+    public function index_put()
+    {
         $this->load->model('Student_model');
 
         $nim = $this->put('nim');
@@ -117,15 +124,14 @@ class Student extends REST_Controller
         $email = $this->put('email');
         $ipk = $this->put('ipk');
 
-        $data = ['nama'=>$nama,'email'=>$email,'ipk'=>$ipk];
-        
-        $result = $this->Student_model->update($nim,$data);
-        
-        if($result){
-            return $this->response("Data Berhasil di Update",200);
-        }
-        else {
-            return $this->response("Data gagal diupdate",400);
+        $data = ['nama' => $nama, 'email' => $email, 'ipk' => $ipk];
+
+        $result = $this->Student_model->update($nim, $data);
+
+        if ($result) {
+            return $this->response("Data Berhasil di Update", 200);
+        } else {
+            return $this->response("Data gagal diupdate", 400);
         }
     }
 
@@ -145,11 +151,10 @@ class Student extends REST_Controller
     {
         $this->load->model('Student_model');
         $result = $this->Student_model->delete($nim);
-        if($result){
-            return $this->response("Data berhasil di delete",200);
-        }
-        else {
-            return $this->response("Data gagal di delete",400);
+        if ($result) {
+            return $this->response("Data berhasil di delete", 200);
+        } else {
+            return $this->response("Data gagal di delete", 400);
         }
     }
 }
