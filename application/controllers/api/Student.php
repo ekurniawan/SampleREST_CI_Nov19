@@ -50,7 +50,7 @@ class Student extends REST_Controller
                 return $this->response($data, 200);
             }
         }
-        return $this->response("Token tidak valid !",401);
+        return $this->response("Token tidak valid !", 401);
     }
 
     public function getbyname_get($nama)
@@ -82,19 +82,26 @@ class Student extends REST_Controller
 
     public function index_post()
     {
-        $this->load->model('Student_model');
-        $nim = $this->post('nim');
-        $nama = $this->post('nama');
-        $email = $this->post('email');
-        $ipk = $this->post('ipk');
+        $headers = $this->input->request_headers();
+        if (Authorization::tokenIsExist($headers)) {
+            $token = Authorization::validateToken($headers['Authorization']);
+            if ($token != false) {
+                $this->load->model('Student_model');
+                $nim = $this->post('nim');
+                $nama = $this->post('nama');
+                $email = $this->post('email');
+                $ipk = $this->post('ipk');
 
-        $data = ['nim' => $nim, 'nama' => $nama, 'email' => $email, 'ipk' => $ipk];
-        $result = $this->Student_model->insert($data);
-        if ($result) {
-            return $this->response($data, 201);
-        } else {
-            return $this->response("Gagal insert data !", 400);
+                $data = ['nim' => $nim, 'nama' => $nama, 'email' => $email, 'ipk' => $ipk];
+                $result = $this->Student_model->insert($data);
+                if ($result) {
+                    return $this->response($data, 201);
+                } else {
+                    return $this->response("Gagal insert data !", 400);
+                }
+            }
         }
+        return $this->response("Token tidak valid !", 401);
     }
 
     /*public function index_put()
