@@ -111,7 +111,7 @@ $config['rest_realm'] = 'REST API';
 |
 */
 $config['rest_auth'] = FALSE;
-
+//$config['rest_auth'] = 'digest';
 /*
 |--------------------------------------------------------------------------
 | REST Login Source
@@ -127,7 +127,7 @@ $config['rest_auth'] = FALSE;
 |
 */
 $config['auth_source'] = 'ldap';
-
+//$config['auth_source'] = '';
 /*
 |--------------------------------------------------------------------------
 | Allow Authentication and API Keys
@@ -211,7 +211,7 @@ $config['auth_library_function'] = '';
 | Array of usernames and passwords for login, if ldap is configured this is ignored
 |
 */
-$config['rest_valid_logins'] = ['admin' => '1234'];
+$config['rest_valid_logins'] = ['erick' => 'erick'];
 
 /*
 |--------------------------------------------------------------------------
