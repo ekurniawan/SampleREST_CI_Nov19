@@ -53,6 +53,18 @@ class Student extends REST_Controller
         return $this->response("Token tidak valid !", 401);
     }
 
+    public function cektoken_get(){
+        $headers = $this->input->request_headers();
+        if (Authorization::tokenIsExist($headers)) {
+            $token = Authorization::validateToken($headers['Authorization']);
+            if ($token != false) {
+                $datatoken = $token->id;
+                return $this->response($datatoken, 200);
+            }
+        }
+        return $this->response("Token tidak valid !", 401);
+    }
+
     public function getbyname_get($nama)
     {
         $this->load->model('Student_model');
